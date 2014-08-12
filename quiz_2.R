@@ -1,17 +1,30 @@
 question2 <- function(){
-    ibrary("sqldf")
+    library("sqldf")
     acs <- read.csv("getdata_data_ss06pid.csv")
     sqldf("select pwgtp1 from acs where AGEP < 50")
     length(unique(acs$AGEP))
     sqldf("select distinct AGEP from acs")
 }
 
+question3 <- function(){
+    library("sqldf")
+    acs <- read.csv("getdata_data_ss06pid.csv")
+    sqldf("select pwgtp1 from acs where AGEP < 50")
+    #length(unique(acs$AGEP))
+    #length(sqldf("select distinct AGEP from acs"))
+    expectation <- unique(acs$AGEP)
+    try1 <- sqldf("select distinct AGEP from acs")
+    # compare
+    identical(expectation, try1)
+    
+}
+
 # question 4
 question4 <- function() {
     library("XML")
-    url <- "http://biostat.jhsph.edu/~jleek/contact.html"
-    doc <- htmlTreeParse(url, useInternalNodes=TRUE)
-    rootNode <- xmlRoot(doc)
+    urlFile <- "http://biostat.jhsph.edu/~jleek/contact.html"
+    r.page <- readLines(urlFile)
+    c(nchar(r.page[10]), nchar(r.page[20]), nchar(r.page[30]), nchar(r.page[100]))
 }
 
 
