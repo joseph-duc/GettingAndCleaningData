@@ -1,3 +1,13 @@
+# install.packages("data.table")
+library("data.table")
+
+quiz3.read.urlcsv <- function(url) {
+    f <- file.path(getwd(), "download.csv")
+    download.file(url, f)
+    data <- data.table(read.csv(f))
+    file.remove(f)
+    data
+}
 quiz3.q1 <- function() {
     # 
     # Question 1
@@ -16,12 +26,17 @@ quiz3.q1 <- function() {
     # 125, 238,262
     
     url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2Fss06hid.csv"
-    f <- file.path(getwd(), "quiz3_ss06hid.csv")
-    download.file(url, f)
-    data <- data.table(read.csv(f))
-    
+    #     f <- file.path(getwd(), "quiz3_ss06hid.csv")
+    #     download.file(url, f)
+    #     data <- data.table(read.csv(f))
+    data <- quiz3.read.urlcsv(url)
+    agricultureLogical <- which(data$ACR == 3 & data$AGS == 6)
+    agricultureLogical[c(1,2,3)]
+
 }
 
+# install.packages("jpeg")
+library("jpeg")
 quiz3.q2 <- function() {
     
     #     Question 2
@@ -34,7 +49,14 @@ quiz3.q2 <- function() {
     #     10904118 -594524
     #     -15259150 -594524
     #     -10904118 -10575416
-    #     
+    #   
+    url <- "https://d396qusza40orc.cloudfront.net/getdata%2Fjeff.jpg"
+    z <- tempfile()
+    download.file(url,z,mode="wb")
+    pic <- readJPEG(z, native=TRUE)
+    file.remove(z) # cleanup
+    quantile(pic, c(0.3, 0.8))
+
 }
 
 quiz3.q3 <- function() {
@@ -59,6 +81,16 @@ quiz3.q3 <- function() {
     #     189, St. Kitts and Nevis
     #     190, Spain
     #     234, Spain
+    urlGDP <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv"
+    f <- file.path(getwd(), "download.csv")
+    download.file(urlGDP, f)
+    data <- data.table(read.csv(f, skire))
+    file.remove(f)
+    dataGDP <- read.table("getdata-data-GDP.csv", sep = ",", nrows = 190, skip = 5)
+    
+    urlEdu <- "https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv"
+    dataEdu <- quiz3.read.urlcsv(urlEdu)
+    
 }
 
 quiz3.q4 <- function() {
