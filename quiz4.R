@@ -109,5 +109,8 @@ quiz4.q5 <- function() {
     # 250, 47
     amzn = getSymbols("AMZN",auto.assign=FALSE)
     sampleTimes = index(amzn)
-    length(sampleTimes[grepl("2012",sampleTimes)])
+    nobs <- length(sampleTimes[grepl("2012",sampleTimes)])
+    x <- weekdays(sampleTimes[grepl("2012",sampleTimes)])
+    nobsMon <- length(x[grepl("Monday", x)])
+    c(nobs, nobsMon)
 }
